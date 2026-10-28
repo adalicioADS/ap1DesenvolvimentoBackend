@@ -12,7 +12,7 @@ Projeto desenvolvido para a avaliação **AP2 — Desenvolvimento Backend**, evo
 
 
 > **Link Público do Vídeo da AP2:**
-> [INSIRA_AQUI_O_LINK_PUBLICO_DO_SEU_VIDEO_AP2]
+> [loading...]
 
 
 
