@@ -1,0 +1,19 @@
+meta {
+  name: 04 - Atualizar
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/produtos/3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "Headset Gamer Sem Fio Pro",
+    "preco": 420.00,
+    "categoria": "Áudio"
+  }
+}

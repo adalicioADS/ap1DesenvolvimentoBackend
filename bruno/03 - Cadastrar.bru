@@ -1,0 +1,19 @@
+meta {
+  name: 03 - Cadastrar
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/produtos
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "Headset Gamer 7.1",
+    "preco": 350.00,
+    "categoria": "Áudio"
+  }
+}

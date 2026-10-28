@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitrine de Produtos — AP2</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header class="main-header">
+      <div class="header-content">
+        <div class="logo-area">
+          <div class="logo-icon">📦</div>
+          <div>
+            <h1>Vitrine de Produtos</h1>
+            <p class="subtitle">Persistência com SQLite & EF Core • ASP.NET Core (.NET 10)</p>
+          </div>
+        </div>
+        <div class="header-badges">
+          <span id="api-status-badge" class="badge badge-success">
+            <span class="status-dot"></span> API Conectada
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Notificações Toast / Alertas -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <main class="main-content">
+      <!-- Cards de Resumo -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🏷️</div>
+          <div class="stat-info">
+            <span class="stat-label">Total de Produtos</span>
+            <span id="stat-total" class="stat-value">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📂</div>
+          <div class="stat-info">
+            <span class="stat-label">Categorias</span>
+            <span id="stat-categorias" class="stat-value">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div class="stat-info">
+            <span class="stat-label">Preço Médio</span>
+            <span id="stat-preco-medio" class="stat-value">R$ 0,00</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="content-columns">
+        <!-- Formulário de Cadastro e Edição -->
+        <section class="card form-card">
+          <div class="card-header">
+            <h2 id="form-title">Cadastrar Novo Produto</h2>
+            <span id="badge-edit-mode" class="badge badge-warning" style="display: none;">Modo Edição</span>
+          </div>
+          <form id="produto-form" class="produto-form" novalidate>
+            <input type="hidden" id="produto-id" value="">
+
+            <div class="form-group">
+              <label for="produto-nome">Nome do Produto <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="produto-nome" 
+                placeholder="Ex: Teclado Mecânico RGB" 
+                required 
+                maxlength="150"
+                autocomplete="off"
+              >
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="produto-categoria">Categoria <span class="required">*</span></label>
+                <input 
+                  type="text" 
+                  id="produto-categoria" 
+                  placeholder="Ex: Periféricos" 
+                  list="categorias-sugestoes"
+                  required
+                  maxlength="100"
+                  autocomplete="off"
+                >
+                <datalist id="categorias-sugestoes">
+                  <option value="Informática">
+                  <option value="Periféricos">
+                  <option value="Áudio">
+                  <option value="Monitores">
+                  <option value="Hardware">
+                  <option value="Acessórios">
+                </datalist>
+              </div>
+
+              <div class="form-group">
+                <label for="produto-preco">Preço (R$) <span class="required">*</span></label>
+                <input 
+                  type="number" 
+                  id="produto-preco" 
+                  placeholder="0.00" 
+                  step="0.01" 
+                  min="0" 
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" id="btn-submit" class="btn btn-primary">
+                <span class="btn-icon">➕</span> <span id="btn-submit-label">Cadastrar Produto</span>
+              </button>
+              <button type="button" id="btn-cancelar" class="btn btn-secondary" style="display: none;">
+                Cancelar Edição
+              </button>
+            </div>
+          </form>
+
+          <!-- Consulta Rápida por ID -->
+          <div class="id-search-box">
+            <h3>Buscar por ID (GET /api/produtos/{id})</h3>
+            <div class="search-input-group">
+              <input type="number" id="input-busca-id" placeholder="ID do produto..." min="1">
+              <button type="button" id="btn-buscar-id" class="btn btn-outline">Buscar</button>
+            </div>
+            <div id="busca-id-resultado" class="busca-resultado" style="display: none;"></div>
+          </div>
+        </section>
+
+        <!-- Tabela / Lista de Produtos -->
+        <section class="card table-card">
+          <div class="card-header table-header">
+            <div>
+              <h2>Catálogo de Produtos</h2>
+              <p class="section-desc">Dados sincronizados em tempo real com o SQLite</p>
+            </div>
+            <button id="btn-recarregar" class="btn btn-sm btn-outline" title="Recarregar dados da API">
+              🔄 Atualizar
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">ID</th>
+                  <th>Nome</th>
+                  <th>Categoria</th>
+                  <th style="width: 130px;">Preço</th>
+                  <th style="width: 150px; text-align: center;">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="produtos-tbody">
+                <!-- Preenchido via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="empty-state" class="empty-state" style="display: none;">
+            <div class="empty-icon">📭</div>
+            <p>Nenhum produto cadastrado até o momento.</p>
+            <p class="empty-hint">Use o formulário ao lado para cadastrar o primeiro produto.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="main-footer">
+      <p>Desenvolvimento Backend • AP2 • Persistência com Entity Framework Core & SQLite</p>
+    </footer>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
