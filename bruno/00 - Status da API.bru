@@ -1,0 +1,15 @@
+meta {
+  name: 00 - Status da API
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/status
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:5050
+}
