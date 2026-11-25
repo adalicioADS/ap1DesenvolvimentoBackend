@@ -11,7 +11,7 @@ Projeto consolidado para a **Avaliação Semestral (AS) — Desenvolvimento Back
 ## 📹 Vídeo de demonstração — AS
 
 > **Link Público do Vídeo da AS:**  
-> `[INSIRA_AQUI_O_LINK_DO_SEU_VIDEO_DA_AS]`
+> `https://drive.google.com/file/d/1ysbXpVw4k2rhLhpFYSZV8XnfOERafea8/view?usp=sharing`
 >
 > *(O vídeo demonstra a explicação da estrutura de pastas, namespaces, inicialização e conexão com o banco, execução de todos os testes no Bruno — incluindo 200, 201, 204, 404 — e a comprovação de persistência após reiniciar a API).*
 
